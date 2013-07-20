@@ -27,6 +27,7 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 
 	public void onCreate(SQLiteDatabase p1) {
 		// TODO: Implement this method
+	//	dgh
 	}
 
 	public void onUpgrade(SQLiteDatabase p1, int p2, int p3) {
