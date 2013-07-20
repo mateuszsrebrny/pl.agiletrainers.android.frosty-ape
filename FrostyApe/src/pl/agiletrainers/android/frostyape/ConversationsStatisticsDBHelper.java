@@ -6,7 +6,8 @@ import android.content.*;
 public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 {
 	public static String DATABASE_NAME = "ConversationsStatisticsDB";
-
+    public static int DATABASE_VERSION = 1;
+    
 	private static String TABLE_NAME = "conversations_statistics";
 	
 	private static String COLUMN_ID = "_id";
@@ -22,7 +23,7 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
     	+ COLUMN_NUM_UNREAD_CONV + " INT)";
 	
 	public ConversationsStatisticsDBHelper(Context context) {
-		super(context, DATABASE_NAME, null, 33);
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	public void onCreate(SQLiteDatabase p1) {
