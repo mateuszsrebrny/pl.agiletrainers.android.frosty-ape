@@ -70,7 +70,7 @@ public class MainActivity extends Activity
 		dataset.addSeries(numConvSeries);
 		currentRenderer = new XYSeriesRenderer();
 		renderer.addSeriesRenderer(currentRenderer);
-		
+		renderer.setYAxisMin(0);
 	}
 	
 	
