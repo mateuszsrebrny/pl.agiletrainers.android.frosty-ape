@@ -13,12 +13,12 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 	private static String COLUMN_ID = "_id";
 	private static String COLUMN_NUM_CONV = "num_conversations";
 	private static String COLUMN_NUM_UNREAD_CONV = "num_unread_converdations";
-	private static String COLUMN_TIME_POINT = "time_point";
+	private static String COLUMN_TIME_POINT_MILIS = "time_point_milis";
 	
 	public static String DB_CREATE_SQL = 
 	    "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "
 		+ COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-		+ COLUMN_TIME_POINT + " DATETIME, "
+		+ COLUMN_TIME_POINT_MILIS + " INT, "
 		+ COLUMN_NUM_CONV + " INT, "
     	+ COLUMN_NUM_UNREAD_CONV + " INT)";
 	
