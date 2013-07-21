@@ -1,7 +1,8 @@
 package pl.agiletrainers.android.frostyape;
 
-import android.database.sqlite.*;
 import android.content.*;
+import android.database.*;
+import android.database.sqlite.*;
 import java.util.*;
 
 public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
@@ -49,7 +50,23 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 	public ArrayList<ConversationsStatistic> getAllStats() {
 		ArrayList<ConversationsStatistic> allStats = new ArrayList<ConversationsStatistic>();
 		
+		SQLiteDatabase db = this.getReadableDatabase();
 		
+		Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
+		
+		cursor.moveToFirst();
+		
+		while (!cursor.isAfterLast()) {
+			long timePointMilis = cursor.getLong(cursor.getColumnIndex(COLUMN_TIME_POINT_MILIS));
+			int numConversations = cursor.getInt(cursor.getColumnIndex(COLUMN_NUM_CONV));
+			int numUnreadConversations = cursor.getInt(cursor.getColumnIndex(COLUMN_NUM_UNREAD_CONV));
+		    ConversationsStatistic convStat = new ConversationsStatistic(timePointMilis, numConversations, numUnreadConversations);
+			allStats.add(convStat);
+			cursor.moveToNext();
+		}
+		
+		cursor.close();
+		db.close();
 		return allStats;
 	}
 	

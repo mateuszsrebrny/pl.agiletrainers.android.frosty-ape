@@ -12,6 +12,7 @@ import android.widget.*;
 import org.achartengine.*;
 import org.achartengine.model.*;
 import org.achartengine.renderer.*;
+import java.util.*;
 
 public class MainActivity extends Activity
 {
@@ -43,7 +44,7 @@ public class MainActivity extends Activity
 		//logOnTextView("layout: "+layout);
 		if (chart == null) {
 		    initChart();
-			addSampleData();
+			addDataFromDB();
 			chart = ChartFactory.getTimeChartView(this, dataset, renderer, null);
 			layout.addView(chart);
 		} else {
@@ -51,8 +52,15 @@ public class MainActivity extends Activity
 		}
 	}
 
-	private void addSampleData()
-	{
+	private void addDataFromDB() {
+		
+		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
+		int size = allStats.size();
+		for (int i = 0; i < size ; ++i) {
+			ConversationsStatistic convStat = allStats.get(i);
+			numConvSeries.add(convStat.getTimeMilis(), convStat.getNumConversations());
+		}
+		logOnTextView("size: "+ size);
          //numConvSeries.add(1, 2);
 		 //numConvSeries.add(2, 3);
 	}
@@ -116,6 +124,10 @@ public class MainActivity extends Activity
 					
 					numConvSeries.add(chartTime, numConversations);
 					chart.repaint();
+					
+					ConversationsStatistic convStat = new ConversationsStatistic(time, numConversations, numUnreadConversations);
+					db.insertConversationsStatistic(convStat);
+					
 				    break;
 				}
 			}
