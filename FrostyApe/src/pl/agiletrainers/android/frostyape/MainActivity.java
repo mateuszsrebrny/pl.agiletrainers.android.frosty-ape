@@ -19,8 +19,9 @@ public class MainActivity extends Activity
 	private XYSeries numConvSeries;
 	private XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 	private XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-
 	private XYSeriesRenderer currentRenderer;
+	
+	private ConversationsStatisticsDBHelper db;
 	
     /** Called when the activity is first created. */
     @Override
@@ -33,6 +34,7 @@ public class MainActivity extends Activity
     	lolButton = (Button) findViewById(R.id.lol_button);
 	    lolTextView = (TextView) findViewById(R.id.lol_text_view);
 		
+		db = new ConversationsStatisticsDBHelper(getApplicationContext());
 	}
 	
 	public void onResume() {
