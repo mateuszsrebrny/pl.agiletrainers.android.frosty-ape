@@ -34,5 +34,9 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 		onCreate(db);
 	}
 	
+	public void insertConversationsStatistic(ConversationsStatistic convStat) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		// todo insert
+	}
 	
 }
