@@ -2,6 +2,7 @@ package pl.agiletrainers.android.frostyape;
 
 import android.database.sqlite.*;
 import android.content.*;
+import java.util.*;
 
 public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 {
@@ -38,8 +39,18 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 	public void insertConversationsStatistic(ConversationsStatistic convStat) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		//values.put(
-		// todo insert
+		values.put(COLUMN_NUM_CONV, convStat.getNumConversations());
+		values.put(COLUMN_NUM_UNREAD_CONV, convStat.getNumUnreadConversations());
+		values.put(COLUMN_TIME_POINT_MILIS, convStat.getTimeMilis());
+		db.insert(TABLE_NAME, null, values);
+		db.close();
+	}
+	
+	public ArrayList<ConversationsStatistic> getAllStats() {
+		ArrayList<ConversationsStatistic> allStats = new ArrayList<ConversationsStatistic>();
+		
+		
+		return allStats;
 	}
 	
 }
