@@ -17,12 +17,11 @@ import java.util.*;
 public class MainActivity extends Activity
 {
 
-	private XYSeries numConvSeries;
-	private XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-	private XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-	private XYSeriesRenderer currentRenderer;
+
 	
 	private ConversationsStatisticsDBHelper db;
+	
+	private ChartHelper chartHelper;
 	
     /** Called when the activity is first created. */
     @Override
@@ -35,44 +34,36 @@ public class MainActivity extends Activity
     	lolButton = (Button) findViewById(R.id.lol_button);
 	    lolTextView = (TextView) findViewById(R.id.lol_text_view);
 		
+		chartHelper = new ChartHelper();
 		db = new ConversationsStatisticsDBHelper(getApplicationContext());
 	}
-	
+	private void addDataFromDB() {
+
+		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
+		int size = allStats.size();
+		for (int i = 0; i < size ; ++i) {
+			ConversationsStatistic convStat = allStats.get(i);
+			chartHelper.addConversationsStatistic(convStat);
+		}
+		//logOnTextView("size: "+ size);
+		//numConvSeries.add(1, 2);
+		//numConvSeries.add(2, 3);
+	}
+
 	public void onResume() {
 		super.onResume();
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
 		//logOnTextView("layout: "+layout);
 		if (chart == null) {
-		    initChart();
+		    chart = chartHelper.getChart(this);
 			addDataFromDB();
-			chart = ChartFactory.getTimeChartView(this, dataset, renderer, null);
 			layout.addView(chart);
 		} else {
 			chart.repaint();
 		}
 	}
 
-	private void addDataFromDB() {
-		
-		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
-		int size = allStats.size();
-		for (int i = 0; i < size ; ++i) {
-			ConversationsStatistic convStat = allStats.get(i);
-			numConvSeries.add(convStat.getTimeMilis(), convStat.getNumConversations());
-		}
-		logOnTextView("size: "+ size);
-         //numConvSeries.add(1, 2);
-		 //numConvSeries.add(2, 3);
-	}
 
-	private void initChart() {
-		numConvSeries = new XYSeries("numCoversations");
-		dataset.addSeries(numConvSeries);
-		currentRenderer = new XYSeriesRenderer();
-		renderer.addSeriesRenderer(currentRenderer);
-		renderer.setYAxisMin(0);
-	}
-	
 	
 	private Button lolButton;
 	private TextView lolTextView;
@@ -115,17 +106,14 @@ public class MainActivity extends Activity
 					
 					Time time = new Time();
 					time.setToNow();
-					String timeString = time.format("[%Y.%m.%d %H:%M]");
-					//String timeString = time.format("%s");
 					
-					double chartTime = time.toMillis(false);
+					String timeString = time.format("[%Y.%m.%d %H:%M]");
 					
 			        lolButton.setText(timeString +" Inbox (unread/all): " + numUnreadConversations + " / " + numConversations);
-					
-					numConvSeries.add(chartTime, numConversations);
+					ConversationsStatistic convStat = new ConversationsStatistic(time, numConversations, numUnreadConversations);
+					chartHelper.addConversationsStatistic(convStat);
 					chart.repaint();
 					
-					ConversationsStatistic convStat = new ConversationsStatistic(time, numConversations, numUnreadConversations);
 					db.insertConversationsStatistic(convStat);
 					
 				    break;
