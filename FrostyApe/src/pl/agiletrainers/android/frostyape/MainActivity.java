@@ -37,6 +37,7 @@ public class MainActivity extends Activity
 		chartHelper = new ChartHelper();
 		db = new ConversationsStatisticsDBHelper(getApplicationContext());
 	}
+	
 	private void addDataFromDB() {
 
 		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
@@ -45,7 +46,7 @@ public class MainActivity extends Activity
 			ConversationsStatistic convStat = allStats.get(i);
 			chartHelper.addConversationsStatistic(convStat);
 		}
-		//logOnTextView("size: "+ size);
+		logOnTextView("size: "+ size);
 		//numConvSeries.add(1, 2);
 		//numConvSeries.add(2, 3);
 	}
