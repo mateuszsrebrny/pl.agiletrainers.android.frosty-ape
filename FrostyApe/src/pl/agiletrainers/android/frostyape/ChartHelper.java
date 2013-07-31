@@ -13,7 +13,7 @@ public class ChartHelper {
 	private XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 	private XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 	private XYSeriesRenderer currentRenderer;
-	private GraphicalView chart;
+	private BitmappableGraphicalView chart;
 
     public ChartHelper() {
 		
@@ -33,7 +33,7 @@ public class ChartHelper {
 	}
 	
 	
-	public GraphicalView getChart(Context context) {
+	public BitmappableGraphicalView getChart(Context context) {
 		
 		initChart();
 		

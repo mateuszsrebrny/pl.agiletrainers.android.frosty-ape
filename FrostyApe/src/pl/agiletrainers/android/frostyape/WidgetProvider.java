@@ -22,7 +22,7 @@ public class WidgetProvider extends AppWidgetProvider
 	
        	ConversationsStatisticsDBHelper db = new ConversationsStatisticsDBHelper(context);
 		ChartHelper chartHelper = new ChartHelper();
-		GraphicalView chart = chartHelper.getChart(context);
+		BitmappableGraphicalView chart = chartHelper.getChart(context);
 
 		addDataFromDB(db, chartHelper);
 		db.close();
@@ -37,22 +37,24 @@ public class WidgetProvider extends AppWidgetProvider
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 
 			PendingIntent pendingIntent= PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); 
-			remoteViews.setOnClickPendingIntent(R.id.widget_text_view,pendingIntent);
+			remoteViews.setOnClickPendingIntent(R.id.widget_chart,pendingIntent);
 						
 			
 			
 			//GraphicalView chart;
 			//chart.toBitmap();
 			
-			Bitmap bitmap = chart.toBitmap();
-			// remoteViews.setImageViewBitmap(R.id.widget_chart, chart.toBitmap());;
+			Bitmap bitmap = Bitmap.createBitmap(220, 200, Bitmap.Config.ARGB_8888);
+			
+			chart.saveToBitmap(bitmap);
+			
+			remoteViews.setImageViewBitmap(R.id.widget_chart, bitmap);
 			
 			
 		    Time time = new Time();
 			time.setToNow();
-			textToDisplay += ", " + widgetId + ": " + time.format2445();
+			textToDisplay += ", " + widgetId + ": " + time.format("%Y.%m.%d %H:%M");
 			textToDisplay += ", dbSize: " + convStatsCountForDebug;
-			textToDisplay += ", bitmap: " + bitmap;
 			remoteViews.setTextViewText(R.id.widget_text_view, textToDisplay);
 			
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
