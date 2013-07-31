@@ -5,6 +5,7 @@ import java.util.*;
 import org.achartengine.*;
 import org.achartengine.model.*;
 import org.achartengine.renderer.*;
+import org.achartengine.chart.*;
 
 public class ChartHelper {
 
@@ -35,7 +36,11 @@ public class ChartHelper {
 	public GraphicalView getChart(Context context) {
 		
 		initChart();
-		chart = ChartFactory.getTimeChartView(context, dataset, renderer, null);
+		
+		TimeChart timeChart = new TimeChart(dataset, renderer);
+		
+		chart = new GraphicalView(context, timeChart);
+		//chart = ChartFactory.getTimeChartView(context, dataset, renderer, null);
 		return chart;
 	}
 
