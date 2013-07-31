@@ -39,7 +39,7 @@ public class ChartHelper {
 		
 		TimeChart timeChart = new TimeChart(dataset, renderer);
 		
-		chart = new GraphicalView(context, timeChart);
+		chart = new BitmappableGraphicalView(context, timeChart);
 		//chart = ChartFactory.getTimeChartView(context, dataset, renderer, null);
 		return chart;
 	}
