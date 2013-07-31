@@ -3,16 +3,29 @@ package pl.agiletrainers.android.frostyape;
 import android.app.*;
 import android.appwidget.*;
 import android.content.*;
-import android.widget.*;
+import android.graphics.*;
 import android.text.format.*;
+import android.widget.*;
+import java.util.*;
+import org.achartengine.*;
 
-public class WidgetProvider extends AppWidgetProvider {
+public class WidgetProvider extends AppWidgetProvider
+{
+
+    private int convStatsCountForDebug;
 
     @Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		String textToDisplay = ":D ";
 		ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+	
+       	ConversationsStatisticsDBHelper db = new ConversationsStatisticsDBHelper(context);
+		ChartHelper chartHelper = new ChartHelper();
+		GraphicalView chart = chartHelper.getChart(context);
+
+		addDataFromDB(db, chartHelper);
+		db.close();
 		
 		for (int widgetId : allWidgetIds) {
 		
@@ -26,15 +39,45 @@ public class WidgetProvider extends AppWidgetProvider {
 			PendingIntent pendingIntent= PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); 
 			remoteViews.setOnClickPendingIntent(R.id.widget_text_view,pendingIntent);
 						
-			Time time = new Time();
+			
+			
+			//GraphicalView chart;
+			//chart.toBitmap();
+			
+			Bitmap bitmap = chart.toBitmap();
+			// remoteViews.setImageViewBitmap(R.id.widget_chart, chart.toBitmap());;
+			
+			
+		    Time time = new Time();
 			time.setToNow();
 			textToDisplay += ", " + widgetId + ": " + time.format2445();
+			textToDisplay += ", dbSize: " + convStatsCountForDebug;
+			textToDisplay += ", bitmap: " + bitmap;
 			remoteViews.setTextViewText(R.id.widget_text_view, textToDisplay);
 			
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
-	
+	   
 	}
+	
+	
+	
+
+
+	private void addDataFromDB(ConversationsStatisticsDBHelper db, ChartHelper chartHelper) {
+
+		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
+		int size = allStats.size();
+		for (int i = 0; i < size ; ++i) {
+			ConversationsStatistic convStat = allStats.get(i);
+			chartHelper.addConversationsStatistic(convStat);
+		}
+		convStatsCountForDebug = size;
+		//logOnTextView("size: "+ size);
+		
+	}
+	
+	
 	
 	
 }
