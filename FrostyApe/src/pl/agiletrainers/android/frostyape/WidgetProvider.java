@@ -21,11 +21,14 @@ public class WidgetProvider extends AppWidgetProvider
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 	
        	ConversationsStatisticsDBHelper db = new ConversationsStatisticsDBHelper(context);
+		GMailStatsRetriever gmailRetriever = new GMailStatsRetriever();
+		ConversationsStatistic convStat = gmailRetriever.retrieve(context);
+		db.insertConversationsStatistic(convStat);
+				
 		ChartHelper chartHelper = new ChartHelper();
 		BitmappableGraphicalView chart = chartHelper.getChart(context);
 
 		addDataFromDB(db, chartHelper);
-		db.close();
 		
 		for (int widgetId : allWidgetIds) {
 		
