@@ -79,51 +79,20 @@ public class MainActivity extends Activity
 	
 	public void onClick(View view) {
 		
-		try {
-			
-			AccountManager accountManager = AccountManager.get(this);
-			final Account[] accounts = accountManager.getAccountsByType(ACCOUNT_TYPE_GOOGLE);
-            String accountName = accounts[0].name;
-			//logOnTextView("Account: " + accountName);
-			
-			
-			
-		    Cursor labelsCursor = null;
-		    ContentResolver contentResolver = getContentResolver();
-		    String labelsUriString = "content://" + "com.google.android.gm/" + accountName + "/labels";
-		    Uri labelsUri = Uri.parse(labelsUriString);
-		
-		    labelsCursor = contentResolver.query(labelsUri, null, null, null, null);
-			//logOnTextView("labelsCursor: " + labelsCursor);
-			
-			final int canonicalNameIndex = labelsCursor.getColumnIndexOrThrow("canonicalName");
-			final int numConversationsIndex = labelsCursor.getColumnIndexOrThrow("numConversations");
-			final int numUnreadConversationsIndex = labelsCursor.getColumnIndexOrThrow("numUnreadConversations");
-			while (labelsCursor.moveToNext()) {
-				String labelName = labelsCursor.getString(canonicalNameIndex);
-				if (labelName.equals("^i")) {
-					int numConversations = labelsCursor.getInt(numConversationsIndex);
-					int numUnreadConversations = labelsCursor.getInt(numUnreadConversationsIndex);
-					
-					Time time = new Time();
-					time.setToNow();
-					
-					String timeString = time.format("[%Y.%m.%d %H:%M]");
-					
-			        lolButton.setText(timeString +" Inbox (unread/all): " + numUnreadConversations + " / " + numConversations);
-					ConversationsStatistic convStat = new ConversationsStatistic(time, numConversations, numUnreadConversations);
-					chartHelper.addConversationsStatistic(convStat);
-					chart.repaint();
-					
-					db.insertConversationsStatistic(convStat);
-					
-				    break;
-				}
-			}
-		}  catch (Exception e ){
-		
-	    	lolTextView.setText("Exception: " + e);
-		}
+		GMailStatsRetriever gmailRetriever = new GMailStatsRetriever();
+		ConversationsStatistic convStat = gmailRetriever.retrieve(this);
+
+		String timeString = convStat.getTime().format("[%Y.%m.%d %H:%M]");
+		int numConversations = convStat.getNumConversations();
+		int numUnreadConversations = convStat.getNumUnreadConversations();
+
+		chartHelper.addConversationsStatistic(convStat);
+		chart.repaint();
+
+		db.insertConversationsStatistic(convStat);
+
+		lolButton.setText(timeString + " Inbox (unread/all): " + numUnreadConversations + " / " + numConversations);		
+
 	}
 	
 }

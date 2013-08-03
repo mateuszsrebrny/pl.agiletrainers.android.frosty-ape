@@ -9,15 +9,22 @@ public class ConversationsStatistic
 	private int numUnreadConversations;
     
 	public ConversationsStatistic(Time time, int numConversations, int numUnreadConversations) {
-		 setTime(time);
-		 setNumConversations(numConversations);
-		 setNumUnreadConversations(numUnreadConversations);
+		setTime(time);
+		setNumConversations(numConversations);
+		setNumUnreadConversations(numUnreadConversations);
 	}
-	
+
 	public ConversationsStatistic(long milis, int numConversations, int numUnreadConversations) {
 		this(null, numConversations, numUnreadConversations);
 		Time time = new Time();
 		time.set(milis);
+		setTime(time);
+	}
+	
+	public ConversationsStatistic(int numConversations, int numUnreadConversations) {
+		this(null, numConversations, numUnreadConversations);
+		Time time = new Time();
+		time.setToNow();
 		setTime(time);
 	}
 
@@ -43,6 +50,10 @@ public class ConversationsStatistic
 	
 	public long getTimeMilis() {
 		return time.toMillis(false);
+	}
+	
+	public Time getTime() {
+		return time;
 	}
 
 }
