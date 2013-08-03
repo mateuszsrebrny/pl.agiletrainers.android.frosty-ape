@@ -16,7 +16,6 @@ public class WidgetProvider extends AppWidgetProvider
 
     @Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		String textToDisplay = ":D ";
 		ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 	
@@ -30,6 +29,8 @@ public class WidgetProvider extends AppWidgetProvider
 
 		addDataFromDB(db, chartHelper);
 		
+		String textToDisplay = getStatusToDisplay(convStat);
+		
 		for (int widgetId : allWidgetIds) {
 		
 			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
@@ -40,7 +41,7 @@ public class WidgetProvider extends AppWidgetProvider
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 
 			PendingIntent pendingIntent= PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); 
-			remoteViews.setOnClickPendingIntent(R.id.widget_chart,pendingIntent);
+     		remoteViews.setOnClickPendingIntent(R.id.widget_chart,pendingIntent);
 						
 			
 			
@@ -54,15 +55,26 @@ public class WidgetProvider extends AppWidgetProvider
 			remoteViews.setImageViewBitmap(R.id.widget_chart, bitmap);
 			
 			
-		    Time time = new Time();
-			time.setToNow();
-			textToDisplay += ", " + widgetId + ": " + time.format("%Y.%m.%d %H:%M");
-			textToDisplay += ", dbSize: " + convStatsCountForDebug;
+		
 			remoteViews.setTextViewText(R.id.widget_text_view, textToDisplay);
 			
 			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 	   
+	}
+
+	private String getStatusToDisplay(ConversationsStatistic convStat)	{		
+		    
+		Time time = new Time();
+		time.setToNow();
+		
+		String status = time.format("[%Y.%m.%d %H:%M]");
+		
+		status += " Inbox (unread/all): ";
+		status += convStat.getNumUnreadConversations();
+		status += " / " + convStat.getNumConversations();
+		status += ", dbSize: " + convStatsCountForDebug;
+		return status;
 	}
 	
 	
