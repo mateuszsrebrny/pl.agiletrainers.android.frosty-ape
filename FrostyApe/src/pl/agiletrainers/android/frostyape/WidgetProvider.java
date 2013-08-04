@@ -44,11 +44,7 @@ public class WidgetProvider extends AppWidgetProvider
      		remoteViews.setOnClickPendingIntent(R.id.widget_chart,pendingIntent);
 						
 			
-			
-			//GraphicalView chart;
-			//chart.toBitmap();
-			
-			Bitmap bitmap = Bitmap.createBitmap(220, 200, Bitmap.Config.ARGB_8888);
+			Bitmap bitmap = Bitmap.createBitmap(340, 280, Bitmap.Config.ARGB_8888);
 			
 			chart.saveToBitmap(bitmap);
 			
@@ -68,9 +64,9 @@ public class WidgetProvider extends AppWidgetProvider
 		Time time = new Time();
 		time.setToNow();
 		
-		String status = time.format("[%Y.%m.%d %H:%M]");
+		String status = time.format("[%Y.%m.%d %H:%M]\n");
 		
-		status += " Inbox (unread/all): ";
+		status += "Inbox (unread/all): ";
 		status += convStat.getNumUnreadConversations();
 		status += " / " + convStat.getNumConversations();
 		status += ", dbSize: " + convStatsCountForDebug;
