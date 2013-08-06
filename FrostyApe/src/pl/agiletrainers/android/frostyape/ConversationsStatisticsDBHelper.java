@@ -52,7 +52,7 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 		
 		SQLiteDatabase db = this.getReadableDatabase();
 		
-		Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
+		Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " order by " + COLUMN_TIME_POINT_MILIS + " desc limit 100", null);
 		
 		cursor.moveToFirst();
 		
