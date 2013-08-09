@@ -42,13 +42,33 @@ public class MainActivity extends Activity
 
 		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
 		int size = allStats.size();
+		
+		ConversationsStatistic prevStat = null;
+		ConversationsStatistic prevPrevStat = null;
+		int notNeededCount = 0;
+		
 		for (int i = 0; i < size ; ++i) {
 			ConversationsStatistic convStat = allStats.get(i);
+		
+			try {
+			
+			   prevStat = allStats.get(i-1);
+			   prevPrevStat = allStats.get(i+1);
+			   if (prevPrevStat.getNumConversations() == prevStat.getNumConversations()
+			       && prevStat.getNumConversations() == convStat.getNumConversations()) {
+
+			       notNeededCount++;
+				   continue;
+			   }
+				
+			} catch (Exception e) {
+				
+			}
+			
 			chartHelper.addConversationsStatistic(convStat);
+			
 		}
-		logOnTextView("size: "+ size);
-		//numConvSeries.add(1, 2);
-		//numConvSeries.add(2, 3);
+		logOnTextView("size: "+ size + ", notNeeded: " + notNeededCount);
 	}
 
 	public void onResume() {
