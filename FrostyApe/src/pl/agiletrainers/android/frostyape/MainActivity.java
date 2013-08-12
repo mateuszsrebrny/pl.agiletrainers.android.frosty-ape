@@ -17,11 +17,10 @@ import java.util.*;
 public class MainActivity extends Activity
 {
 
+	private DataAndChartManager dataAndChartManager;
 
-	
-	private ConversationsStatisticsDBHelper db;
-	
-	private ChartHelper chartHelper;
+	private Button lolButton;
+	private TextView lolTextView;
 	
     /** Called when the activity is first created. */
     @Override
@@ -30,88 +29,40 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
     
-	
     	lolButton = (Button) findViewById(R.id.lol_button);
 	    lolTextView = (TextView) findViewById(R.id.lol_text_view);
 		
-		chartHelper = new ChartHelper();
-		db = new ConversationsStatisticsDBHelper(getApplicationContext());
+		dataAndChartManager = new DataAndChartManager(getApplicationContext());
+		
 	}
 	
-	private void addDataFromDB() {
-
-		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
-		int size = allStats.size();
-		
-		ConversationsStatistic prevStat = null;
-		ConversationsStatistic prevPrevStat = null;
-		int notNeededCount = 0;
-		
-		for (int i = 0; i < size ; ++i) {
-			ConversationsStatistic convStat = allStats.get(i);
-		
-			try {
-			
-			   prevStat = allStats.get(i-1);
-			   prevPrevStat = allStats.get(i+1);
-			   if (prevPrevStat.getNumConversations() == prevStat.getNumConversations()
-			       && prevStat.getNumConversations() == convStat.getNumConversations()) {
-
-			       notNeededCount++;
-				   continue;
-			   }
-				
-			} catch (Exception e) {
-				
-			}
-			
-			chartHelper.addConversationsStatistic(convStat);
-			
-		}
-		logOnTextView("size: "+ size + ", notNeeded: " + notNeededCount);
-	}
 
 	public void onResume() {
 		super.onResume();
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
 		//logOnTextView("layout: "+layout);
-		if (chart == null) {
-		    chart = chartHelper.getChart(this);
-			addDataFromDB();
-			layout.addView(chart);
-		} else {
-			chart.repaint();
-		}
+		try {
+			dataAndChartManager.getChart().repaint();
+		} catch (NullPointerException npe) {
+			String log = dataAndChartManager.createChartFromDB();
+			logOnTextView(log);		   
+			layout.addView(dataAndChartManager.getChart());
+		} 
 	}
 
 
-	
-	private Button lolButton;
-	private TextView lolTextView;
-	private GraphicalView chart;
-	
 	public void logOnTextView (String s) {
 		String buffer = lolTextView.getText() + ", " + s;
 		lolTextView.setText(buffer);
 	}
 	
-	final String ACCOUNT_TYPE_GOOGLE = "com.google";
 	
 	public void onClick(View view) {
 		
-		GMailStatsRetriever gmailRetriever = new GMailStatsRetriever();
-		ConversationsStatistic convStat = gmailRetriever.retrieve(this);
-
-		String timeString = convStat.getTime().format("[%Y.%m.%d %H:%M]");
-		int numConversations = convStat.getNumConversations();
-		int numUnreadConversations = convStat.getNumUnreadConversations();
-
-		chartHelper.addConversationsStatistic(convStat);
-		chart.repaint();
-
-		db.insertConversationsStatistic(convStat);
-
-		lolButton.setText(timeString + " Inbox (unread/all): " + numUnreadConversations + " / " + numConversations);		
+		String log = dataAndChartManager.updateDBAndChartWithGMail();
+		
+		dataAndChartManager.getChart().repaint();
+		lolButton.setText(log);
 
 	}
 	
