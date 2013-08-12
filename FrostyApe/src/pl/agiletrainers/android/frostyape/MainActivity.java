@@ -35,31 +35,24 @@ public class MainActivity extends Activity
 		dataAndChartManager = new DataAndChartManager(getApplicationContext());
 		
 	}
-	
-
+		
+    @Override
 	public void onResume() {
 		super.onResume();
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
-		//logOnTextView("layout: "+layout);
 		try {
 			dataAndChartManager.getChart().repaint();
 		} catch (NullPointerException npe) {
 			String log = dataAndChartManager.createChartFromDB();
-			logOnTextView(log);		   
+			lolTextView.setText(log);		   
 			layout.addView(dataAndChartManager.getChart());
 		} 
 	}
 
-
-	public void logOnTextView (String s) {
-		String buffer = lolTextView.getText() + ", " + s;
-		lolTextView.setText(buffer);
-	}
-	
-	
+	@Override
 	public void onClick(View view) {
 		
-		String log = dataAndChartManager.updateDBAndChartWithGMail();
+		String log = dataAndChartManager.updateWithCurrentStat();
 		
 		dataAndChartManager.getChart().repaint();
 		lolButton.setText(log);

@@ -21,8 +21,7 @@ public class DataAndChartManager
         chart = null;
 	}
 
-	public String updateDBAndChartWithGMail()
-	{
+	public String updateWithCurrentStat() {
 		GMailStatsRetriever gmailRetriever = new GMailStatsRetriever();
 		ConversationsStatistic convStat = gmailRetriever.retrieve(context);
 
@@ -30,15 +29,17 @@ public class DataAndChartManager
 		int numConversations = convStat.getNumConversations();
 		int numUnreadConversations = convStat.getNumUnreadConversations();
 
-		chartHelper.addConversationsStatistic(convStat);
-
 		db.insertConversationsStatistic(convStat);
 
+		try {
+			chartHelper.addConversationsStatistic(convStat);
+		} catch (NullPointerException npe) {}		
+		
 		return timeString + " Inbox (unread/all): " + numUnreadConversations + " / " + numConversations;	
 		
 	}
 	
-	public GraphicalView getChart()
+	public BitmappableGraphicalView getChart()
 	{
 		return chart;
 	}
