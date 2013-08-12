@@ -1,7 +1,6 @@
 package pl.agiletrainers.android.frostyape;
-import android.content.*;
-import java.util.*;
-import org.achartengine.*;
+import android.content.Context;
+import java.util.ArrayList;
 
 public class DataAndChartManager
 {

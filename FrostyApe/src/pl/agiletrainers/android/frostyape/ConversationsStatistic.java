@@ -1,5 +1,5 @@
 package pl.agiletrainers.android.frostyape;
-import android.text.format.*;
+import android.text.format.Time;
 
 public class ConversationsStatistic
 {

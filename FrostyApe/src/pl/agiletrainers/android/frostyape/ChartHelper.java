@@ -1,11 +1,11 @@
 package pl.agiletrainers.android.frostyape;
 
-import android.content.*;
-import java.util.*;
-import org.achartengine.*;
-import org.achartengine.model.*;
-import org.achartengine.renderer.*;
-import org.achartengine.chart.*;
+import android.content.Context;
+import org.achartengine.model.XYSeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.chart.TimeChart;
 
 public class ChartHelper {
 

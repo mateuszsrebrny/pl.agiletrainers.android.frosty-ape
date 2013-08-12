@@ -1,9 +1,11 @@
 package pl.agiletrainers.android.frostyape;
 
-import android.content.*;
-import android.database.*;
-import android.database.sqlite.*;
-import java.util.*;
+import android.content.Context;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteDatabase;
+import java.util.ArrayList;
 
 public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 {

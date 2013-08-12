@@ -1,8 +1,13 @@
 package pl.agiletrainers.android.frostyape;
-import org.achartengine.*;
-import android.content.*;
-import org.achartengine.chart.*;
-import android.graphics.*;
+
+import org.achartengine.GraphicalView;
+
+import android.content.Context;
+
+import org.achartengine.chart.AbstractChart;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 public class BitmappableGraphicalView extends GraphicalView 
 {

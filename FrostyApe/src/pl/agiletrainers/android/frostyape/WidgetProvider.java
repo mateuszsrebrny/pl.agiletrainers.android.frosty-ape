@@ -1,13 +1,19 @@
 package pl.agiletrainers.android.frostyape;
 
-import android.app.*;
-import android.appwidget.*;
-import android.content.*;
-import android.graphics.*;
-import android.text.format.*;
-import android.widget.*;
-import java.util.*;
-import org.achartengine.*;
+import android.app.PendingIntent;
+
+import android.appwidget.AppWidgetProvider;
+import android.appwidget.AppWidgetManager;
+
+import android.widget.RemoteViews;
+
+import android.graphics.Bitmap;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+
+
 
 public class WidgetProvider extends AppWidgetProvider
 {

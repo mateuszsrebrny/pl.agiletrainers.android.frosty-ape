@@ -1,21 +1,13 @@
 package pl.agiletrainers.android.frostyape;
 
-import android.accounts.*;
-import android.app.*;
-import android.content.*;
-import android.database.*;
-import android.net.*;
-import android.os.*;
-import android.text.format.*;
-import android.view.*;
-import android.widget.*;
-import org.achartengine.*;
-import org.achartengine.model.*;
-import org.achartengine.renderer.*;
-import java.util.*;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.LinearLayout;
 
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
 
 	private DataAndChartManager dataAndChartManager;
 

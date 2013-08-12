@@ -1,9 +1,10 @@
 package pl.agiletrainers.android.frostyape;
-import android.content.*;
-import android.accounts.*;
-import android.database.*;
-import android.net.*;
-import android.text.format.*;
+import android.content.Context;
+import android.content.ContentResolver;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.database.Cursor;
+import android.net.Uri;
 
 
 public class GMailStatsRetriever {
