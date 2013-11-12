@@ -28,7 +28,7 @@ public class WidgetProvider extends AppWidgetProvider
 	    String log = dataAndChartManager.updateWithCurrentStat();
 	    log += "\n";
 		
-		log += dataAndChartManager.createChartFromDB();
+		log += dataAndChartManager.createChartFromDB(true);
 		
 		BitmappableGraphicalView chart = dataAndChartManager.getChart();
 		Bitmap bitmap = Bitmap.createBitmap(340, 280, Bitmap.Config.RGB_565);

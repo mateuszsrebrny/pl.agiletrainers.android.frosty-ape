@@ -33,15 +33,22 @@ public class ChartHelper {
 	}
 	
 	
-	public BitmappableGraphicalView getChart(Context context) {
+	public BitmappableGraphicalView getChart(Context context, boolean widgetLookAndFeel) {
 		
 		initChart();
 		
 		TimeChart timeChart = new TimeChart(dataset, renderer);
 		
+		setLookAndFeelOptions(timeChart, widgetLookAndFeel);
+		
 		chart = new BitmappableGraphicalView(context, timeChart);
-		//chart = ChartFactory.getTimeChartView(context, dataset, renderer, null);
 		return chart;
+	}
+
+	private void setLookAndFeelOptions(TimeChart timeChart, boolean widgetLookAndFeel) {
+		if (!widgetLookAndFeel) 
+			return;
+		renderer.setShowLegend(false);
 	}
 
 }

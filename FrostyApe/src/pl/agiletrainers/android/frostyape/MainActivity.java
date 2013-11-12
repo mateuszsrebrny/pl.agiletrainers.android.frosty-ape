@@ -35,13 +35,12 @@ public class MainActivity extends Activity {
 		try {
 			dataAndChartManager.getChart().repaint();
 		} catch (NullPointerException npe) {
-			String log = dataAndChartManager.createChartFromDB();
+			String log = dataAndChartManager.createChartFromDB(false);
 			lolTextView.setText(log);		   
 			layout.addView(dataAndChartManager.getChart());
 		} 
 	}
 
-	@Override
 	public void onClick(View view) {
 		
 		String log = dataAndChartManager.updateWithCurrentStat();

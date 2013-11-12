@@ -43,9 +43,9 @@ public class DataAndChartManager
 		return chart;
 	}
 
-	public String createChartFromDB()
+	public String createChartFromDB(boolean widgetLookAndFeel)
 	{
-		chart = chartHelper.getChart(context);
+		chart = chartHelper.getChart(context, widgetLookAndFeel);
 		return addDataFromDB();
 	}
 
