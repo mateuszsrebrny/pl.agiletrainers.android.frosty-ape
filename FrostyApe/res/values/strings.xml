@@ -3,7 +3,7 @@
 
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">FrostyApe</string>
-	<string name="lol">LOL :)</string>
+	<string name="get_data">Get Data :)</string>
 	<string name="datamgmt_button">Data Mgmt</string>
 	
 </resources>

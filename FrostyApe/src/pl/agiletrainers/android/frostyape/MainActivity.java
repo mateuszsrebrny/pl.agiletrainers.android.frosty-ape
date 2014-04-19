@@ -11,8 +11,8 @@ public class MainActivity extends Activity {
 
 	private DataAndChartManager dataAndChartManager;
 
-	private Button lolButton;
-	private TextView lolTextView;
+	private Button getDataButton;
+	private TextView logTextView;
 	
     /** Called when the activity is first created. */
     @Override
@@ -21,8 +21,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
     
-    	lolButton = (Button) findViewById(R.id.lol_button);
-	    lolTextView = (TextView) findViewById(R.id.log_text_view);
+    	getDataButton = (Button) findViewById(R.id.lol_button);
+	    logTextView = (TextView) findViewById(R.id.log_text_view);
 		
 		dataAndChartManager = new DataAndChartManager(getApplicationContext());
 		
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 			dataAndChartManager.getChart().repaint();
 		} catch (NullPointerException npe) {
 			String log = dataAndChartManager.createChartFromDB(false);
-			lolTextView.setText(log);		   
+			logTextView.setText(log);		   
 			layout.addView(dataAndChartManager.getChart());
 		} 
 	}
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 		String log = dataAndChartManager.updateWithCurrentStat();
 		
 		dataAndChartManager.getChart().repaint();
-		lolButton.setText(log);
+		getDataButton.setText(log);
 
 	}
 	
