@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
     
-    	getDataButton = (Button) findViewById(R.id.lol_button);
+    	getDataButton = (Button) findViewById(R.id.get_data_button);
 	    logTextView = (TextView) findViewById(R.id.log_text_view);
 		
 		dataAndChartManager = new DataAndChartManager(getApplicationContext());
