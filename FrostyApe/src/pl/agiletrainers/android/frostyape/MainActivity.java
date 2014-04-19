@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
     
     	lolButton = (Button) findViewById(R.id.lol_button);
-	    lolTextView = (TextView) findViewById(R.id.lol_text_view);
+	    lolTextView = (TextView) findViewById(R.id.log_text_view);
 		
 		dataAndChartManager = new DataAndChartManager(getApplicationContext());
 		
