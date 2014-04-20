@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.content.Intent;
 
 public class MainActivity extends Activity {
 
@@ -52,6 +53,9 @@ public class MainActivity extends Activity {
 	
 	public void onClickDataMgmt(View view) {
 		getDataButton.setText("ggh");
+		
+		Intent intent = new Intent(this, DataMgmtActivity.class);
+		startActivity(intent);
 	}
 	
 }
