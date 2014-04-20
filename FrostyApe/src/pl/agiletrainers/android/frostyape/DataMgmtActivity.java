@@ -1,8 +1,13 @@
 package pl.agiletrainers.android.frostyape;
 import android.os.Bundle;
 import android.app.Activity;
+import android.widget.TextView;
+import android.view.View;
 
-public class DataMgmtActivity extends Activity {
+public class DataMgmtActivity extends Activity
+{
+
+	private TextView outputTextView;
 
 	
 	/** Called when the activity is first created. */
@@ -12,11 +17,18 @@ public class DataMgmtActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.datamgmt);
 
-    	//getDataButton = (Button) findViewById(R.id.get_data_button);
-	    //logTextView = (TextView) findViewById(R.id.log_text_view);
+	    outputTextView = (TextView) findViewById(R.id.output_text_view);		
 
-		//dataAndChartManager = new DataAndChartManager(getApplicationContext());
-
+		output("Activity freshly creared");
+		
 	}
 	
+	
+	protected void output(String s) {
+		outputTextView.setText(s);
+	}
+	
+	public void onClick(View view) {
+		output("button pressed!");
+	}
 }

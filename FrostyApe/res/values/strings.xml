@@ -6,4 +6,6 @@
 	<string name="get_data">Get Data :)</string>
 	<string name="datamgmt_button">Data Mgmt</string>
 	
+	<string name="query_db">Query DB</string>
+	
 </resources>

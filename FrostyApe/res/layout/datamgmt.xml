@@ -6,9 +6,16 @@
     
 	
 	<TextView
-        android:id="@+id/log_text_view"
+        android:id="@+id/output_text_view"
 		android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=":)" />
+	
+	<Button
+		android:id="@+id/query_db_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/query_db"
+		android:onClick="onClick" />
 	
 </LinearLayout>
