@@ -9,6 +9,8 @@ public class DataMgmtActivity extends Activity
 
 	private TextView outputTextView;
 
+	private ConversationsStatisticsDBHelper db;
+
 	
 	/** Called when the activity is first created. */
     @Override
@@ -19,6 +21,8 @@ public class DataMgmtActivity extends Activity
 
 	    outputTextView = (TextView) findViewById(R.id.output_text_view);		
 
+		db = new ConversationsStatisticsDBHelper(this);
+		
 		output("Activity freshly creared");
 		
 	}
@@ -29,6 +33,8 @@ public class DataMgmtActivity extends Activity
 	}
 	
 	public void onClick(View view) {
-		output("button pressed!");
+	    String out = "button pressed!";
+		out += " count: " + db.getCount();
+		output(out);
 	}
 }
