@@ -50,4 +50,8 @@ public class MainActivity extends Activity {
 
 	}
 	
+	public void onClickDataMgmt(View view) {
+		getDataButton.setText("ggh");
+	}
+	
 }
