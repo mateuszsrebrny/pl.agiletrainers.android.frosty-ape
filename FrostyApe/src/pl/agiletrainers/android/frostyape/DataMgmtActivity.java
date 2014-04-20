@@ -34,7 +34,7 @@ public class DataMgmtActivity extends Activity
 	
 	public void onClick(View view) {
 	    String out = "button pressed!";
-		out += " count: " + db.getCount();
+		out += " count: " + db.getConversationsStatisticsRawCount();
 		output(out);
 	}
 }

@@ -30,8 +30,7 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
-	public int getCount()
-	{
+	public int getConversationsStatisticsRawCount() {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		Cursor cursor = db.rawQuery("select count(1) from " + TABLE_NAME, null);
