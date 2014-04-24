@@ -30,24 +30,6 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
-	public int getConversationsStatisticsRawCount() {
-		SQLiteDatabase db = this.getReadableDatabase();
-		
-		Cursor cursor = db.rawQuery("select count(1) from " + TABLE_NAME, null);
-		
-		cursor.moveToFirst();
-		
-		int count = -1;
-		
-		if (!cursor.isAfterLast()) {
-		
-			count = cursor.getInt(0);	
-			
-		}
-		db.close();
-		return count;
-	}
-
     public void onCreate(SQLiteDatabase db) {
 		db.execSQL(DB_CREATE_SQL);
 	}
@@ -89,5 +71,34 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 		db.close();
 		return allStats;
 	}
+	
+	public int getConversationsStatisticsRawCount() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		int count = -1;
+		
+		Cursor cursor = db.rawQuery("select count(1) from " + TABLE_NAME, null);
+        cursor.moveToFirst();
+
+		if (!cursor.isAfterLast()) {
+			count = cursor.getInt(0);	
+		}
+		db.close();
+		return count;
+	}
+	
+	public String getConversationsStatisticsAverages() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		String result = "";
+
+		Cursor cursor = db.rawQuery("select count(1) from " + TABLE_NAME, null);
+        cursor.moveToFirst();
+
+		if (!cursor.isAfterLast()) {
+			result += "count: " + cursor.getInt(0);	
+		}
+		db.close();
+		return result;
+	}
+	
 	
 }
