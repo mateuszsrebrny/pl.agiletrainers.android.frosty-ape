@@ -90,11 +90,14 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 		SQLiteDatabase db = this.getReadableDatabase();
 		String result = "";
 
-		Cursor cursor = db.rawQuery("select count(1) from " + TABLE_NAME, null);
+		Cursor cursor = db.rawQuery("select strftime('%Y-%m-%d', "+ COLUMN_TIME_POINT_MILIS + "/1000, 'unixepoch') as day, count(1), avg(" + COLUMN_NUM_CONV + ") from " + TABLE_NAME + " group by day order by day desc limit 10", null);
         cursor.moveToFirst();
 
-		if (!cursor.isAfterLast()) {
-			result += "count: " + cursor.getInt(0);	
+		while (!cursor.isAfterLast()) {
+			result += ", (day: " + cursor.getString(0);
+			result += ", count: " + cursor.getInt(1);
+			result += ", avg: " + cursor.getInt(2) + ")";
+			cursor.moveToNext();
 		}
 		db.close();
 		return result;
