@@ -51,10 +51,17 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 	
 	public ArrayList<ConversationsStatistic> getAllStats() {
 		ArrayList<ConversationsStatistic> allStats = new ArrayList<ConversationsStatistic>();
+		allStats.addAll(getRawStats());
+		allStats.addAll(getAvgStats());
+		return allStats;
+	}
+		
+	public ArrayList<ConversationsStatistic> getRawStats() {
+		ArrayList<ConversationsStatistic> rawStats = new ArrayList<ConversationsStatistic>();
 		
 		SQLiteDatabase db = this.getReadableDatabase();
 		
-		Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " order by " + COLUMN_TIME_POINT_MILIS + " desc limit 150", null);
+		Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " order by " + COLUMN_TIME_POINT_MILIS + " desc limit 50", null);
 		
 		cursor.moveToFirst();
 		
@@ -63,13 +70,13 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 			int numConversations = cursor.getInt(cursor.getColumnIndex(COLUMN_NUM_CONV));
 			int numUnreadConversations = cursor.getInt(cursor.getColumnIndex(COLUMN_NUM_UNREAD_CONV));
 		    ConversationsStatistic convStat = new ConversationsStatistic(timePointMilis, numConversations, numUnreadConversations);
-			allStats.add(convStat);
+			rawStats.add(convStat);
 			cursor.moveToNext();
 		}
 		
 		cursor.close();
 		db.close();
-		return allStats;
+		return rawStats;
 	}
 	
 	public int getConversationsStatisticsRawCount() {
@@ -86,28 +93,36 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 		return count;
 	}
 	
-	public String getConversationsStatisticsAverages() {
+	public ArrayList<ConversationsStatistic> getAvgStats() {
+		ArrayList<ConversationsStatistic> avgStats = new ArrayList<ConversationsStatistic>();
+		
 		SQLiteDatabase db = this.getReadableDatabase();
-		String result = "";
+		//String result = "";
 
 		String sql = "select strftime('%Y-%m-%d', " + COLUMN_TIME_POINT_MILIS + "/1000, 'unixepoch') as day," 
 			+ " count(1), avg(" + COLUMN_NUM_CONV + ")" 
 			+ " from " + TABLE_NAME 
 			+ " group by day" 
 			+ " order by day desc" 
-			+ " limit 10"
-			+ " offset " + 10;
+			+ " limit " +100
+			+ " offset " + 1;
 		Cursor cursor = db.rawQuery(sql, null);
         cursor.moveToFirst();
 
 		while (!cursor.isAfterLast()) {
-			result += ", (day: " + cursor.getString(0);
-			result += ", count: " + cursor.getInt(1);
-			result += ", avg: " + cursor.getInt(2) + ")";
+			String dayString = cursor.getString(0);
+			int avgNumConv = cursor.getInt(2);
+			//result += ", (day: " + dayString;
+			//result += ", count: " + cursor.getInt(1);
+			//result += ", avg: " + avgNumConv + ")";
+			ConversationsStatistic convStat = new ConversationsStatistic(avgNumConv, -1);
+			convStat.getTime().parse3339(dayString);
+			avgStats.add(convStat);
+			//result += "[" + convStat.getTime() + ", " + convStat.getNumConversations() +"]";
 			cursor.moveToNext();
 		}
 		db.close();
-		return result;
+		return avgStats;
 	}
 	
 	
