@@ -1,6 +1,7 @@
 package pl.agiletrainers.android.frostyape;
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.*;
 
 public class DataAndChartManager
 {
@@ -53,8 +54,17 @@ public class DataAndChartManager
 	private String addDataFromDB() {
 
 		ArrayList<ConversationsStatistic> allStats = db.getAllStats();
+		
+		//Sorting 
+		Collections.sort(allStats, new Comparator<ConversationsStatistic>() { 
+		                                @Override 
+										public int compare(ConversationsStatistic c1, ConversationsStatistic c2) { 
+										    return Long.compare(c1.getTimeMilis(), c2.getTimeMilis()); 
+									    }
+									});
+									
 		int size = allStats.size();
-
+		
 		ConversationsStatistic prevStat = null;
 		ConversationsStatistic prevPrevStat = null;
 		int notNeededCount = 0;
@@ -77,7 +87,7 @@ public class DataAndChartManager
 
 			}
 
-			chartHelper.addConversationsStatistic(convStat);
+			chartHelper.addConversationsStatistic(Double.parseDouble(""+i), convStat);
 
 		}
 		return "size: "+ size + ", notNeeded: " + notNeededCount;

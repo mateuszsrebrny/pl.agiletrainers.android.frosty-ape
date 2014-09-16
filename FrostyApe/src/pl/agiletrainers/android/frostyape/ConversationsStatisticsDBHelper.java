@@ -51,8 +51,8 @@ public class ConversationsStatisticsDBHelper extends SQLiteOpenHelper
 	
 	public ArrayList<ConversationsStatistic> getAllStats() {
 		ArrayList<ConversationsStatistic> allStats = new ArrayList<ConversationsStatistic>();
-		allStats.addAll(getRawStats());
 		allStats.addAll(getAvgStats());
+		allStats.addAll(getRawStats());
 		return allStats;
 	}
 		

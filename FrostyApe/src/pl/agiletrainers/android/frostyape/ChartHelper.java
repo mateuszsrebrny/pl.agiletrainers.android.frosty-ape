@@ -1,15 +1,14 @@
 package pl.agiletrainers.android.frostyape;
 
 import android.content.Context;
-import org.achartengine.model.XYSeries;
+import org.achartengine.model.XYValueSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.chart.TimeChart;
 
 public class ChartHelper {
 
-	private XYSeries numConvSeries;
+	private XYValueSeries numConvSeries;
 	private XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 	private XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 	private XYSeriesRenderer currentRenderer;
@@ -19,17 +18,24 @@ public class ChartHelper {
 		
 	}
 
+	public void addConversationsStatistic(double x, ConversationsStatistic convStat)
+	{
+	    numConvSeries.add(x, convStat.getNumConversations(), convStat.getTimeMilis());
+	}
+
 	public void addConversationsStatistic(ConversationsStatistic convStat) {
-		numConvSeries.add(convStat.getTimeMilis(), convStat.getNumConversations());
+		double maxX = numConvSeries.getMaxX();
+		this.addConversationsStatistic(maxX, convStat);
 	}
 	
 
 	private void initChart() {
-		numConvSeries = new XYSeries("numCoversations");
+		numConvSeries = new XYValueSeries("numCoversations");
 		dataset.addSeries(numConvSeries);
 		currentRenderer = new XYSeriesRenderer();
 		renderer.addSeriesRenderer(currentRenderer);
 		renderer.setYAxisMin(0);
+		//renderer.setXRoundedLabels(true);
 	}
 	
 	
@@ -37,15 +43,16 @@ public class ChartHelper {
 		
 		initChart();
 		
-		TimeChart timeChart = new TimeChart(dataset, renderer);
+		LinearTimeChart linearTimeChart = new LinearTimeChart(dataset, renderer);
 		
-		setLookAndFeelOptions(timeChart, widgetLookAndFeel);
+		setLookAndFeelOptions(linearTimeChart, widgetLookAndFeel);
 		
-		chart = new BitmappableGraphicalView(context, timeChart);
+		chart = new BitmappableGraphicalView(context, linearTimeChart);
 		return chart;
 	}
 
-	private void setLookAndFeelOptions(TimeChart timeChart, boolean widgetLookAndFeel) {
+	private void setLookAndFeelOptions(LinearTimeChart timeChart, boolean widgetLookAndFeel) {
+		renderer.setShowGrid(true);
 		if (!widgetLookAndFeel) 
 			return;
 		renderer.setShowLegend(false);
