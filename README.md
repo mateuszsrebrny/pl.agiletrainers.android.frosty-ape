@@ -1,2 +1,2 @@
-pl.angiletrainers.android-frosty-ape
+pl.agiletrainers.android-frosty-ape
 ====================================
